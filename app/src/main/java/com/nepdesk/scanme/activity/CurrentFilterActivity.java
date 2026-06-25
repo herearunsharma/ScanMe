@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.core.content.ContextCompat;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.ads.AdView;
@@ -72,8 +73,8 @@ public class CurrentFilterActivity extends BaseActivity implements View.OnClickL
     public void onResume() {
         super.onResume();
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".SavedDocumentActivity"));
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".IDCardPreviewActivity2"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".SavedDocumentActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".IDCardPreviewActivity2"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override

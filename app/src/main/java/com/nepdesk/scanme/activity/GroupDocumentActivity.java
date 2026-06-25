@@ -138,15 +138,15 @@ public class GroupDocumentActivity extends BaseActivity implements View.OnClickL
         new setGroupDocAdapter().execute(new String[0]);
         super.onResume();
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".PDFViewerActivity2"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".PDFViewerActivity2"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentGalleryActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentGalleryActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".CropDocumentActivity4"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".CropDocumentActivity4"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".ScannerActivity2"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".ScannerActivity2"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".SavedDocumentPreviewActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".SavedDocumentPreviewActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override

@@ -1,18 +1,18 @@
 plugins {
     id 'com.android.application'
-    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
-    compileSdk 33
-    buildToolsVersion "30.0.3"
+    compileSdk 35
+    namespace "com.nepdesk.scanme"
 
     defaultConfig {
         applicationId "com.nepdesk.scanme"
         minSdkVersion 24
-        targetSdk 33
-        versionCode 4
-        versionName "1.0"
+        targetSdk 35
+        versionCode 5
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
@@ -28,8 +28,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     sourceSets {
@@ -38,38 +38,36 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         abortOnError false
     }
-    aaptOptions {
+    androidResources {
         noCompress "tflite"
         noCompress "lite"
     }
 
-    /* Reduce apk size */
-    /*splits {
-        abi {
-            enable true
-            reset()
-            include 'arm64-v8a', 'armeabi-v7a', 'mips', 'mips64', 'x86', 'x86_64'
-            universalApk false
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
         }
-    }*/
-
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation project(path: ':scanlibrary')
     implementation project(path: ':sticker')
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
-    implementation 'com.google.android.gms:play-services-ads:21.3.0'
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
+    implementation 'com.google.android.ump:user-messaging-platform:3.1.0'
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation 'com.google.firebase:firebase-messaging'
 //    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.9'
     implementation fileTree(dir: 'libs', include: '*.jar')
     implementation files('libs/itextpdf-5.5.13.2.jar')
@@ -78,18 +76,16 @@ dependencies {
     implementation 'com.github.pqpo:SmartCropper:v2.1.3'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
-    implementation 'com.divyanshu.colorseekbar:colorseekbar:1.0.2'
+    implementation 'com.github.divyanshub024:ColorSeekBar:1.0.2'
 
-    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation 'androidx.annotation:annotation:1.9.1'
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
-    implementation 'com.kyanogen.signatureview:signature-view:1.2'
+    implementation 'com.github.zahid-ali-shah:SignatureView:v1.2'
     implementation 'com.github.nguyenhoanglam:ImagePicker:1.4.3'
-    implementation 'com.takwolf.android:aspectratio:0.3.0'
-    implementation 'com.huangyz0918:androidwm-light:0.1.2'
-    implementation 'com.burhanrashid52:photoeditor:1.1.1'
+            implementation 'com.burhanrashid52:photoeditor:1.1.1'
 
     implementation 'com.google.android.gms:play-services-vision:20.1.3'
 
@@ -97,21 +93,20 @@ dependencies {
 //Thanks for using https://jar-download.com
     implementation 'jp.wasabeef:richeditor-android:2.0.0'
 //    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
-    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.github.mhiew:android-pdf-viewer:3.2.0-beta.3'
     implementation 'com.google.zxing:core:3.3.3'
     // https://mvnrepository.com/artifact/com.github.google/cameraview
 //    implementation group: 'com.github.google', name: 'cameraview', version: '6ceaf867d3'
 
-    api 'com.otaliastudios:cameraview:2.7.1'
+    api 'com.otaliastudios:cameraview:2.7.2'
 
     implementation 'com.github.yalantis:ucrop:2.2.6'
     implementation 'com.edmodo:cropper:1.0.1'
     implementation 'com.loopj.android:android-async-http:1.4.11'
-    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.sdp:sdp-android:1.1.1'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    implementation 'com.onesignal:OneSignal:4.8.3'
 
-    def lifecycle_version = "2.4.0"
+    def lifecycle_version = "2.8.7"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 

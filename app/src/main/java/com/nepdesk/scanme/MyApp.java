@@ -6,13 +6,11 @@ import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.onesignal.OneSignal;
 import com.nepdesk.scanme.main_utils.Constant;
 
 import me.pqpo.smartcropperlib.SmartCropper;
 
 public class MyApp extends Application {
-    private static final String ONESIGNAL_APP_ID = "398dc385-1821-4042-b533-19996ae2594d";
     private static MyApp instance;
     private boolean showAds = true;
 
@@ -20,15 +18,8 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        // 如果使用机器学习代替 Canny 算子，请初始化 ImageDetector
+        // Initialize SmartCropper ImageDetector
         SmartCropper.buildImageDetector(this);
-
-        // Enable verbose OneSignal logging to debug issues if needed.
-        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
-
-        // OneSignal Initialization
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId(ONESIGNAL_APP_ID);
 
         initTheme();
     }

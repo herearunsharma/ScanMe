@@ -69,8 +69,8 @@ import com.nepdesk.scanme.main_utils.Constant;
 import com.nepdesk.scanme.models.EditToolType;
 import com.nepdesk.scanme.utils.AdmobAds;
 import com.nepdesk.scanme.utils.AdsUtils;
-import com.watermark.androidwm_light.WatermarkBuilder;
-import com.watermark.androidwm_light.bean.WatermarkText;
+// import com.watermark.androidwm_light.WatermarkBuilder;
+// import com.watermark.androidwm_light.bean.WatermarkText;
 import com.xiaopo.flying.sticker.BitmapStickerIcon;
 import com.xiaopo.flying.sticker.DeleteIconEvent;
 import com.xiaopo.flying.sticker.DrawableSticker;
@@ -189,7 +189,6 @@ public class DocumentEditorActivity extends BaseActivity implements View.OnClick
     private LinearLayout ly_adjust;
 
     public LinearLayout ly_alignment;
-//    private AspectRatioLayout ly_aspectratio;
     private LinearLayout ly_color_effect;
     private LinearLayout ly_color_filter;
 
@@ -272,7 +271,7 @@ public class DocumentEditorActivity extends BaseActivity implements View.OnClick
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".SavedEditDocumentActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".SavedEditDocumentActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override
@@ -317,7 +316,6 @@ public class DocumentEditorActivity extends BaseActivity implements View.OnClick
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_done = (ImageView) findViewById(R.id.iv_done);
         rl_main = (RelativeLayout) findViewById(R.id.rl_main);
-//        ly_aspectratio = (AspectRatioLayout) findViewById(R.id.ly_aspectratio);
         iv_editImg = (PhotoEditorView) findViewById(R.id.iv_editImg);
         iv_overlayImg = (ImageView) findViewById(R.id.iv_overlayImg);
         stickerView = (StickerView) findViewById(R.id.stickerView);
@@ -702,7 +700,7 @@ public class DocumentEditorActivity extends BaseActivity implements View.OnClick
                     rl_watermark_color.setVisibility(View.GONE);
                     rl_watermark_opacity.setVisibility(View.GONE);
                     rl_watermark.setVisibility(View.GONE);
-                    WatermarkBuilder.create(getApplicationContext(), iv_editImg.getSource()).loadWatermarkText(new WatermarkText(et_watermark_txt.getText().toString()).setPositionX(2.0d).setPositionY(2.0d).setTextFont(watermarkFont).setTextColor(et_watermark_txt.getCurrentTextColor()).setTextAlpha(sb_watermark_opacity.getProgress()).setRotation(-30.0d).setTextSize(20.0d)).setTileMode(true).getWatermark().setToImageView(iv_editImg.getSource());
+                    // WatermarkBuilder.create(getApplicationContext(), iv_editImg.getSource()).loadWatermarkText(new WatermarkText(et_watermark_txt.getText().toString()).setPositionX(2.0d).setPositionY(2.0d).setTextFont(watermarkFont).setTextColor(et_watermark_txt.getCurrentTextColor()).setTextAlpha(sb_watermark_opacity.getProgress()).setRotation(-30.0d).setTextSize(20.0d)).setTileMode(true).getWatermark().setToImageView(iv_editImg.getSource());
                     hideSoftKeyboard(et_watermark_txt);
                     return;
                 }

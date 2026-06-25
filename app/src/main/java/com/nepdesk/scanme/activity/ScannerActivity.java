@@ -205,17 +205,17 @@ public class ScannerActivity extends BaseActivity implements ActivityCompat.OnRe
             ActivityCompat.requestPermissions(this, new String[]{"android.permission.CAMERA"}, 1);
         }
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".ScannerGalleryActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".ScannerGalleryActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".CropDocumentActivity2"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".CropDocumentActivity2"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".IDCardPreviewActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".IDCardPreviewActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".SavedEditDocumentActivity3"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".SavedEditDocumentActivity3"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".UcropActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".UcropActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_Scanner"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_Scanner"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override

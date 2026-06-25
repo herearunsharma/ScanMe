@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import androidx.core.content.ContextCompat;
 
 import androidx.core.internal.view.SupportMenu;
 
@@ -32,7 +33,6 @@ import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.nguyenhoanglam.imagepicker.model.Image;
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker;
-import com.takwolf.android.aspectratio.AspectRatioLayout;
 import com.nepdesk.scanme.R;
 import com.nepdesk.scanme.db.DBHelper;
 import com.nepdesk.scanme.models.DBModel;
@@ -53,7 +53,6 @@ import java.util.Iterator;
 public class IDCardPreviewActivity extends BaseActivity implements View.OnClickListener, StickerHolderView.OnStickerSelectionCallback {
     private static final String TAG = "IDCardPreviewActivity";
 
-    public AspectRatioLayout aspectRatioLayout;
     protected Bitmap backSide;
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -118,9 +117,9 @@ public class IDCardPreviewActivity extends BaseActivity implements View.OnClickL
     public void onResume() {
         super.onResume();
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_IDCard"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_IDCard"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".IDCardGalleryActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".IDCardGalleryActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override
@@ -159,7 +158,6 @@ public class IDCardPreviewActivity extends BaseActivity implements View.OnClickL
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_done = (ImageView) findViewById(R.id.iv_done);
         rl_main = (RelativeLayout) findViewById(R.id.rl_main);
-        aspectRatioLayout = (AspectRatioLayout) findViewById(R.id.aspectRatioLayout);
         stickerHolderView = (StickerHolderView) findViewById(R.id.stickerHolderView);
         iv_bg_color = (ImageView) findViewById(R.id.iv_bg_color);
         iv_add_new = (ImageView) findViewById(R.id.iv_add_new);
@@ -175,7 +173,7 @@ public class IDCardPreviewActivity extends BaseActivity implements View.OnClickL
     }
 
     private void bindView() {
-        aspectRatioLayout.setAspectRatio(3.0f, 4.0f);
+        // aspectRatioLayout.setAspectRatio(3.0f, 4.0f);
         stickerHolderView.setTextStickerSelectionCallback(this);
         if (!Constant.current_camera_view.equals("ID Card") || !Constant.card_type.equals("Single")) {
             frontSide = ScannerActivity.idcardImgList.get(0);
@@ -213,7 +211,7 @@ public class IDCardPreviewActivity extends BaseActivity implements View.OnClickL
                 onBackPressed();
                 return;
             case R.id.iv_done:
-                aspectRatioLayout.setDrawingCacheEnabled(true);
+                // aspectRatioLayout.setDrawingCacheEnabled(true);
                 stickerHolderView.leaveSticker();
                 iv_scrap.setImageResource(R.drawable.ic_scrap);
                 txtScrap.setTextColor(getResources().getColor(R.color.white));
@@ -321,7 +319,7 @@ public class IDCardPreviewActivity extends BaseActivity implements View.OnClickL
 
         @Override
         public Bitmap doInBackground(Bitmap... bitmapArr) {
-            finalBitmap = aspectRatioLayout.getDrawingCache();
+            // finalBitmap = aspectRatioLayout.getDrawingCache();
             finalBitmap = getMainFrameBitmap(rl_main);
             if (finalBitmap == null) {
                 return null;

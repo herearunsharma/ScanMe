@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -130,11 +131,11 @@ public class SavedEditDocumentActivity extends BaseActivity implements View.OnCl
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_SavedEdit"));
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_SavedEdit2"));
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".PDFViewerActivity"));
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".NoteActivity"));
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".ImageToTextActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_SavedEdit"), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_SavedEdit2"), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".PDFViewerActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".NoteActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".ImageToTextActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override

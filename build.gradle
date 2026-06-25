@@ -2,18 +2,28 @@
 buildscript {
     repositories {
         google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        maven { url "https://maven.google.com" }
         mavenCentral()
+        maven { url 'https://jitpack.io' }
         flatDir {
             dirs 'libs'
         }
         gradlePluginPortal()
+        // jcenter is deprecated but some old dependencies are only available here
+        jcenter() {
+            content {
+                // Only allow jcenter for these specific packages not on mavenCentral
+                includeGroup "com.divyanshu.colorseekbar"
+                includeGroup "com.kyanogen.signatureview"
+                includeGroup "com.takwolf.android"
+                includeGroup "com.huangyz0918"
+                includeGroup "com.github.barteksc"
+                includeGroup "com.edmodo"
+            }
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.14.0'
+        classpath 'com.android.tools.build:gradle:8.7.3'
+        classpath 'com.google.gms:google-services:4.4.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -23,14 +33,23 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        maven { url "https://maven.google.com" }
         mavenCentral()
+        maven { url 'https://jitpack.io' }
         flatDir {
             dirs 'libs'
         }
         gradlePluginPortal()
+        // jcenter is deprecated but some old dependencies are only available here
+        jcenter() {
+            content {
+                includeGroup "com.divyanshu.colorseekbar"
+                includeGroup "com.kyanogen.signatureview"
+                includeGroup "com.takwolf.android"
+                includeGroup "com.huangyz0918"
+                includeGroup "com.github.barteksc"
+                includeGroup "com.edmodo"
+            }
+        }
     }
 }
 

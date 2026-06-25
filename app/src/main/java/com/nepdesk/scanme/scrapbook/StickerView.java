@@ -12,7 +12,7 @@ import android.graphics.Picture;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.AsyncTask;
-import android.support.v4.media.session.PlaybackStateCompat;
+// import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -461,7 +461,7 @@ public class StickerView extends ImageView {
             } catch (InterruptedException | ExecutionException exception) {
             }
         } else {
-            if (j < PlaybackStateCompat.ACTION_PREPARE_FROM_SEARCH) {
+            if (j < 65536) {
                 j = 65536;
             }
             if (j > ((long) (this.screenHeight * this.screenWidth))) {

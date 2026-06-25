@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.ads.AdView;
 import com.scanlibrary.ScanActivity;
@@ -89,9 +90,9 @@ public class CropDocumentActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_Crop"));
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".CurrentFilterActivity"));
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".ScannerActivity_Retake"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".DocumentEditorActivity_Crop"), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".CurrentFilterActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".ScannerActivity_Retake"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override

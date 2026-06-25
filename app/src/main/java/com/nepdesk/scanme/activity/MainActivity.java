@@ -169,19 +169,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         new setAllGroupAdapter().execute(new String[0]);
         super.onResume();
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".PrivacyPolicyActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".PrivacyPolicyActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".QRGenerateActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".QRGenerateActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".QRReaderActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".QRReaderActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".MainGalleryActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".MainGalleryActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".ScannerActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".ScannerActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".GroupDocumentActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".GroupDocumentActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        registerReceiver(broadcastReceiver, new IntentFilter(getPackageName() + ".CropDocumentActivity"));
+        ContextCompat.registerReceiver(this, broadcastReceiver, new IntentFilter(getPackageName() + ".CropDocumentActivity"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override
@@ -212,8 +212,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         preferences = getSharedPreferences("mypref", 0);
         init();
         bindView();
-        AdsUtils.loadGoogleInterstitialAd(mainActivity, MainActivity.this);
+        initUMP();
+    }
 
+    private void initUMP() {
+        com.google.android.ump.ConsentInformation consentInformation = com.google.android.ump.UserMessagingPlatform.getConsentInformation(this);
+        
+        com.google.android.ump.ConsentRequestParameters params = new com.google.android.ump.ConsentRequestParameters
+                .Builder()
+                .build();
+
+        consentInformation.requestConsentInfoUpdate(
+                this,
+                params,
+                new com.google.android.ump.ConsentInformation.OnConsentInfoUpdateSuccessListener() {
+                    @Override
+                    public void onConsentInfoUpdateSuccess() {
+                        com.google.android.ump.UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                                MainActivity.this,
+                                new com.google.android.ump.ConsentForm.OnConsentFormDismissedListener() {
+                                    @Override
+                                    public void onConsentFormDismissed(com.google.android.ump.FormError loadAndShowError) {
+                                        if (loadAndShowError != null) {
+                                            Log.w("MainActivity", loadAndShowError.getErrorCode() + ": " + loadAndShowError.getMessage());
+                                        }
+                                        if (consentInformation.canRequestAds()) {
+                                            AdsUtils.loadGoogleInterstitialAd(mainActivity, MainActivity.this);
+                                        }
+                                    }
+                                }
+                        );
+                    }
+                },
+                new com.google.android.ump.ConsentInformation.OnConsentInfoUpdateFailureListener() {
+                    @Override
+                    public void onConsentInfoUpdateFailure(com.google.android.ump.FormError requestConsentError) {
+                        Log.w("MainActivity", requestConsentError.getErrorCode() + ": " + requestConsentError.getMessage());
+                    }
+                });
+
+        if (consentInformation.canRequestAds()) {
+            AdsUtils.loadGoogleInterstitialAd(mainActivity, MainActivity.this);
+        }
     }
 
 
@@ -332,7 +372,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 drawer_ly.openDrawer(GravityCompat.START);
                 return;
             case R.id.iv_group_camera:
-                ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"}, 2);
+                requestRequiredPermissions(2);
                 return;
             case R.id.iv_more:
                 PopupMenu popupMenu = new PopupMenu(this, view);
@@ -427,32 +467,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (i != 2) {
                 if (i != 3) {
                     if (i == 4) {
-                        if (checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED && checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED && checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED) {
+                        if (hasRequiredPermissions()) {
                             Constant.IdentifyActivity = "QRGenerateActivity";
                             AdsUtils.showGoogleInterstitialAd(MainActivity.this, true);
                             return;
                         }
-                        ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"}, 4);
+                        requestRequiredPermissions(4);
                     }
-                } else if (checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED && checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED && checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED) {
+                } else if (hasRequiredPermissions()) {
                     Constant.IdentifyActivity = "QRReaderActivity";
                     AdsUtils.showGoogleInterstitialAd(MainActivity.this, true);
                 } else {
-                    ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"}, 3);
+                    requestRequiredPermissions(3);
                 }
-            } else if (checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED && checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED && checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED) {
+            } else if (hasRequiredPermissions()) {
                 Constant.inputType = "Group";
                 Constant.IdentifyActivity = "ScannerActivity";
                 AdsUtils.showGoogleInterstitialAd(MainActivity.this, false);
             } else {
-                ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"}, 2);
+                requestRequiredPermissions(2);
             }
-        } else if (checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED && checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED && checkSelfPermission("android.permission.CAMERA") == PackageManager.PERMISSION_GRANTED) {
+        } else if (hasRequiredPermissions()) {
             Constant.inputType = "Group";
             Constant.IdentifyActivity = "MainGalleryActivity";
             AdsUtils.showGoogleInterstitialAd(MainActivity.this, true);
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"}, 1);
+            requestRequiredPermissions(1);
         }
     }
 
@@ -466,7 +506,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 new setAllGroupAdapter().execute(new String[0]);
                 break;
             case R.id.import_from_gallery:
-                ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"}, 1);
+                requestRequiredPermissions(1);
                 break;
             case R.id.list_view:
                 editor = preferences.edit();
@@ -1438,12 +1478,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (drawer_ly.isDrawerOpen(GravityCompat.START)) {
                 drawer_ly.closeDrawer(GravityCompat.START);
             }
-            ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"}, 3);
+            requestRequiredPermissions(3);
         } else if (i == 2) {
             if (drawer_ly.isDrawerOpen(GravityCompat.START)) {
                 drawer_ly.closeDrawer(GravityCompat.START);
             }
-            ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.CAMERA"}, 4);
+            requestRequiredPermissions(4);
         } else if (i == 3) {
             if (drawer_ly.isDrawerOpen(GravityCompat.START)) {
                 drawer_ly.closeDrawer(GravityCompat.START);
@@ -1477,6 +1517,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             iv_search.setVisibility(View.VISIBLE);
         } else {
             finish();
+        }
+    }
+
+    private boolean hasRequiredPermissions() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            return checkSelfPermission(android.Manifest.permission.READ_MEDIA_IMAGES) == android.content.pm.PackageManager.PERMISSION_GRANTED &&
+                   checkSelfPermission(android.Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED;
+        } else {
+            return checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_GRANTED &&
+                   checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_GRANTED &&
+                   checkSelfPermission(android.Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void requestRequiredPermissions(int requestCode) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            androidx.core.app.ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_MEDIA_IMAGES, android.Manifest.permission.CAMERA}, requestCode);
+        } else {
+            androidx.core.app.ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA}, requestCode);
         }
     }
 }

@@ -63,7 +63,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center">
 
-               <!-- <com.takwolf.android.aspectratio.AspectRatioLayout
+               <!-- <FrameLayout
                     android:id="@+id/ly_aspectratio"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -91,7 +91,7 @@
                         android:alpha="0.3"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
-<!--                </com.takwolf.android.aspectratio.AspectRatioLayout>-->
+<!--                </FrameLayout>-->
             </RelativeLayout>
         </LinearLayout>
 

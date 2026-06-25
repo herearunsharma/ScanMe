@@ -54,15 +54,7 @@ public class PrivacyPolicyActivity extends BaseActivity {
             }
         });
 
-        TextView txt4= (TextView) findViewById(R.id.OneSignal); //txt is object of TextView
-        txt4.setMovementMethod(LinkMovementMethod.getInstance());
-        txt4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-                browserIntent.setData(Uri.parse("https://onesignal.com/privacy_policy"));
-                startActivity(browserIntent);
-            }
-        });
+// Removed OneSignal link as the SDK was removed
 
         findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
             @Override

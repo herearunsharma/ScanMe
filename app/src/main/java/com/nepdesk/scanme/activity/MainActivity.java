@@ -472,27 +472,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                             AdsUtils.showGoogleInterstitialAd(MainActivity.this, true);
                             return;
                         }
-                        requestRequiredPermissions(4);
+                        android.widget.Toast.makeText(this, "Permissions are required to use this feature", android.widget.Toast.LENGTH_SHORT).show();
                     }
                 } else if (hasRequiredPermissions()) {
                     Constant.IdentifyActivity = "QRReaderActivity";
                     AdsUtils.showGoogleInterstitialAd(MainActivity.this, true);
                 } else {
-                    requestRequiredPermissions(3);
+                    android.widget.Toast.makeText(this, "Permissions are required to use this feature", android.widget.Toast.LENGTH_SHORT).show();
                 }
             } else if (hasRequiredPermissions()) {
                 Constant.inputType = "Group";
                 Constant.IdentifyActivity = "ScannerActivity";
                 AdsUtils.showGoogleInterstitialAd(MainActivity.this, false);
             } else {
-                requestRequiredPermissions(2);
+                android.widget.Toast.makeText(this, "Permissions are required to use this feature", android.widget.Toast.LENGTH_SHORT).show();
             }
         } else if (hasRequiredPermissions()) {
             Constant.inputType = "Group";
             Constant.IdentifyActivity = "MainGalleryActivity";
             AdsUtils.showGoogleInterstitialAd(MainActivity.this, true);
         } else {
-            requestRequiredPermissions(1);
+            android.widget.Toast.makeText(this, "Permissions are required to use this feature", android.widget.Toast.LENGTH_SHORT).show();
         }
     }
 

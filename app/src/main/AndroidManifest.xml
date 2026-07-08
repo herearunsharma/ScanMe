@@ -15,7 +15,6 @@
 
     <!-- For API 33+ (granular media permissions) -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 
     <uses-feature
         android:name="android.hardware.camera"

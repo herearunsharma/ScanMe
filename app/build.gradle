@@ -11,12 +11,18 @@ android {
         applicationId "com.nepdesk.scanme"
         minSdkVersion 24
         targetSdk 35
-        versionCode 8
-        versionName "1.4"
+        versionCode 10
+        versionName "1.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', "arm64-v8a", 'x86', 'x86_64'
+        }
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
         }
     }
 
